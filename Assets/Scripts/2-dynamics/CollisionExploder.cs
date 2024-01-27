@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-
-
 /**
  * This component triggers an explosion effect and destroys its object 
  * whenever its object collides with something in a velocity above the threshold.
@@ -11,10 +9,10 @@ public class CollisionExploder: MonoBehaviour {
     [SerializeField] float minImpulseForExplosion = 1.0f;
     [SerializeField] GameObject explosionEffect = null;
     [SerializeField] float explosionEffectTime = 0.68f;
-
     private Rigidbody2D rb;
+
     void Start() {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GameObject.Find("PigEnemy").GetComponent<Rigidbody2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -25,7 +23,8 @@ public class CollisionExploder: MonoBehaviour {
         Debug.Log(gameObject.name + " collides with " + collision.collider.name
             + " at velocity " + collision.relativeVelocity + " [m/s], impulse "+ impulse+" [kg*m/s]");
         if (impulse > minImpulseForExplosion) {
-            StartCoroutine(Explosion());
+            // StartCoroutine(Explosion());
+            Destroy(rb.gameObject);
         }
     }
 

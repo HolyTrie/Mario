@@ -3,44 +3,76 @@
 /**
  *  This component moves its object in a fixed speed back and forth between two points in space.
  */
-public class MovingPlatform : MonoBehaviour {
+public class MovingPlatform : MonoBehaviour
+{
     [Tooltip("The points between which the platform moves")]
-    [SerializeField] Transform startPoint=null, endPoint = null;
+    [SerializeField] Transform startPoint = null, endPoint = null;
 
     [SerializeField] float speed = 1f;
 
     bool moveFromStartToEnd = true;
 
-    private void Start() {
+    private void Start()
+    {
         transform.position = startPoint.position;
     }
 
-    void FixedUpdate() {
+    void Update()
+    {
+        Flip();
+    }
+
+    void FixedUpdate()
+    {
         // If Update is used, the player does not move with the platform.
         float deltaX = speed * Time.fixedDeltaTime;
-        if (moveFromStartToEnd) {
+        if (moveFromStartToEnd)
+        {
+            Debug.Log("Moves To End");
             transform.position = Vector3.MoveTowards(transform.position, endPoint.position, deltaX);
-        } else {  // move from end to start
+        }
+        else
+        {  // move from end to start
+            Debug.Log("Moves To Start");
             transform.position = Vector3.MoveTowards(transform.position, startPoint.position, deltaX);
         }
 
-        if (transform.position == startPoint.position) {
-            moveFromStartToEnd = true;
-        } else if (transform.position == endPoint.position) {
-            moveFromStartToEnd = false;
+        // if (transform.position == startPoint.position) {
+        //     moveFromStartToEnd = true;
+        // } else if (transform.position == endPoint.position) {
+        //     moveFromStartToEnd = false;
+        // }
+    }
+
+    public void setDirection(bool Direction)
+    {
+        this.moveFromStartToEnd = Direction;
+    }
+
+    private void Flip()
+    {
+        if (moveFromStartToEnd)
+        {
+            transform.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            transform.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.GetComponent<KeyboardMover>()) {
-            other.transform.parent = this.transform;
-        }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // if (other.gameObject.GetComponent<KeyboardMover>()) {
+        //     other.transform.parent = this.transform;
+        // }
     }
-    
-    private void OnTriggerExit(Collider other) {
-        if (other.gameObject.GetComponent<KeyboardMover>()) {
-            other.transform.parent = null;
-        }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // if (other.gameObject.GetComponent<KeyboardMover>()) {
+        //     other.transform.parent = null;
+        // }
     }
 
 
