@@ -2,14 +2,13 @@
 
 /**
  *  This component moves its object in a fixed speed back and forth between two points in space.
+ TODO -> seperate into two - moving enemy + moving platform.
  */
 public class MovingPlatform : MonoBehaviour
 {
     [Tooltip("The points between which the platform moves")]
     [SerializeField] Transform startPoint = null, endPoint = null;
-
     [SerializeField] float speed = 1f;
-
     bool moveFromStartToEnd = true;
 
     private void Start()
@@ -36,7 +35,6 @@ public class MovingPlatform : MonoBehaviour
             Debug.Log("Moves To Start");
             transform.position = Vector3.MoveTowards(transform.position, startPoint.position, deltaX);
         }
-
         // if (transform.position == startPoint.position) {
         //     moveFromStartToEnd = true;
         // } else if (transform.position == endPoint.position) {
@@ -52,13 +50,9 @@ public class MovingPlatform : MonoBehaviour
     private void Flip()
     {
         if (moveFromStartToEnd)
-        {
             transform.GetComponent<SpriteRenderer>().flipX = false;
-        }
         else
-        {
             transform.GetComponent<SpriteRenderer>().flipX = true;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -74,6 +68,4 @@ public class MovingPlatform : MonoBehaviour
         //     other.transform.parent = null;
         // }
     }
-
-
 }
